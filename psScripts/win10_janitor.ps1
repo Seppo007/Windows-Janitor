@@ -57,6 +57,7 @@ Write-Host "###############################################"
 
 $windowsDir = $env:windir
 $systemDrive = $windowsDir.split('\')[0]+"\"
+$ccleaner = ((Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*).DisplayName -Match "CCleaner")
 Write-Host "`nSystem drive is:" $systemDrive
 Write-Host "Windows location is:" $windowsDir
 
@@ -105,6 +106,21 @@ if($winUpdateService.Status -eq "Running"){
 }
 Remove-Item -Path $windowsDir"\SoftwareDistribution\" -Include *.* -Recurse
 net start wuauserv
+
+# Run CCleaner if installed and user acknowledged
+if($ccleaner -ne "") {
+    $question.text = "CCleaner has been detected on your system. Do you want to run it now?"
+    $result = $dialog.ShowDialog()
+    if($result -eq "OK") {
+        Write-Host "`n7/7 -> Run CCleaner`n"
+        Start-Process -FilePath "ccleaner.exe" -ArgumentList "/auto" | Out-Null
+        $question.text = "Do you want to clean your registry also? `nThis requires manual interaction"
+        $result = $dialog.ShowDialog()
+        if($result -eq "OK") {
+            Start-Process -FilePath "ccleaner.exe" -ArgumentList "/registry" | Out-Null
+        }
+    }
+}
 
 # End of script
 Write-Host "`n#######################################"
