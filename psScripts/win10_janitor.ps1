@@ -75,11 +75,11 @@ if($result -eq "OK") {
 
 # Clean the Windows Temp folder
 Write-Host "`n2/6 -> Cleaning Windows Temp Folder"
-Remove-Item -Path $windows\Temp\* -ErrorAction Ignore
+Remove-Item -Path $windowsDir\Temp\* -Recurse -ErrorAction Ignore
 
 # Clean the Prefetch Folder
 Write-Host "`n3/6 -> Cleaning Windows Prefetch Folder"
-Remove-Item -Path $windows\Prefetch\* -ErrorAction Ignore
+Remove-Item -Path $windowsDir\Prefetch\* -Recurse -ErrorAction Ignore
 
 # Clean the Applications Temp folder
 Write-Host "`n4/6 -> Cleaning Application Temp Folder"
