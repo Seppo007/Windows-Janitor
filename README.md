@@ -1,2 +1,2 @@
-# Windows10_Janitor
-Powershell Script to automate Windows 10 cleanup
+# Windows-Janitor
+Powershell Script to automate Windows 10 & 11 cleanup
